@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+{{> include/head}}
+<body class="hold-transition skin-black sidebar-mini">
+<div class="wrapper">
+    {{> include/main_header}}
+    {{> include/left_column}}
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h1>
+                게시판 예제
+                <small>일반적인 수정페이지</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> 게시판</a></li>
+                <li class="active">일반</li>
+                <li class="active">수정</li>
+            </ol>
+        </section>
+        <section class="content container-fluid">
+            <div class="col-lg-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">게시글 수정 - <small>게시글번호(${boardVO.bno})</small></h3>
+                    </div>
+                    <form role="form" method="post" action="${path}/board/modify">
+                        <div class="box-body">
+                            <%--이전의 목록 페이지 정보, 검색정보 를 가지고 페이지 이동을 위한 값들 세팅--%>
+                            <input type="hidden" name="bno" value="${boardVO.bno}">
+                            <input type="hidden" name="page" value="${criteria.page}">
+                            <input type="hidden" name="perPageNum" value="${criteria.perPageNum}">
+                            <input type="hidden" name="searchType" value="${criteria.searchType}">
+                            <input type="hidden" name="keyword" value="${criteria.keyword}">
+                            <div class="form-group">
+                                <label for="title">제목</label>
+                                <input type="text" id="title" name="title" class="form-control" value="${boardVO.title}" >
+                            </div>
+                            <div class="form-group">
+                                <label for="content">내용</label>
+                                <textarea class="form-control" id="content" name="content" rows="10" style="resize: none;">${boardVO.content}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="writer">작성자</label>
+                                <input type="text" class="form-control" id="writer" name="writer" value="${boardVO.writer}" readonly="readonly">
+                            </div>
+                        </div>
+                    </form>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-warning modifyBtn"><i class="fa fa-edit"></i> 수정</button>
+                        <button type="submit" class="btn btn-danger cancelBtn"><i class="fa fa-arrow-left"></i> 취소</button>
+                        <button type="submit" class="btn btn-primary listBtn pull-right"><i class="fa fa-list"></i> 목록</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{{> include/plugin_js}}
+<script>
+</script>
+</body>
+</html>

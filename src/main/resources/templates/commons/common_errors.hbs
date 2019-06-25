@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+{{> include/head}}
+<body class="hold-transition skin-black sidebar-mini">
+<div class="wrapper">
+    {{> include/main_header}}
+    {{> include/left_column}}
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h1>
+                오류 발생 페이지
+                <small>스프링연습예제</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> error</a></li>
+                <li class="active">exception</li>
+            </ol>
+        </section>
+        <section class="content container-fluid">
+            <h3><i class="fa fa-warning text-red"></i> ${exception.getMessage()}</h3>
+            <ul>
+                <c:forEach items="${exception.getStackTrace()}" var="stack">
+                    <li>${stack.toString()}</li>
+                </c:forEach>
+            </ul>
+
+        </section>
+    </div>
+    {{> include/main_footer}}
+</div>
+{{> include/plugin_js}}
+</body>
+</html>
