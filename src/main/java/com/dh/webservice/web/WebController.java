@@ -20,16 +20,15 @@ public class WebController {
         return "/signin";
     }
 
-    @GetMapping("/index")
-    public ModelAndView index() {
-        ModelAndView mav = new ModelAndView();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByUserEmail(auth.getName());
-        System.out.println(user.toString());
-        mav.addObject("userName", user.getUserName());
-        return mav;
-
-    }
+//    @GetMapping("/index")
+//    public ModelAndView index() {
+//        ModelAndView mav = new ModelAndView();
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        User user = userService.findUserByUserEmail(auth.getName());
+//        mav.addObject("userName", user.getUserName());
+//        return mav;
+//
+//    }
 
     @GetMapping("/signup")
     public String signup() {

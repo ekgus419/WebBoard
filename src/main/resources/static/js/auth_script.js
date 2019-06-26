@@ -1,6 +1,6 @@
 $(document).ready(function(){
-
-    $("input:text[name=user_email]").focus();
+    // 회원 가입 입력 form 포커스
+    $("input[name=user_email]").focus();
 
     // 회원가입시 form 데이터 검증
     $("#signUpForm").validate({
@@ -32,10 +32,12 @@ $(document).ready(function(){
                 user_email: "잘못된 이메일 형식입니다."
             }
         },
-        errorPlacement: function (){ //validator는 기본적으로 validation 실패시 메세지를 우측에 표시하게 되어있다 원치않으면 입력해놓을것 ★안쓰면 에러표시됨★
+        errorPlacement: function (){
+            //validator는 기본적으로 validation 실패시 메세지를 우측에 표시하게 되어있다 원치않으면 입력해놓을것 ★안쓰면 에러표시됨★
             console.log("errorPlacement")
         },
-        invalidHandler: function(form, validator){ //입력값이 잘못된 상태에서 submit 할때 호출
+        invalidHandler: function(form, validator){
+            //입력값이 잘못된 상태에서 submit 할때 호출
             var errors = validator.numberOfInvalids();
             if (errors) {
                 alert(validator.errorList[0].message);

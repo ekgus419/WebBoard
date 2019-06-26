@@ -18,7 +18,7 @@
         </section>
         <section class="content container-fluid">
             <div class="col-lg-12">
-                <form>
+                <form onsubmit="return false;">
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">게시글 입력</h3>
@@ -26,17 +26,18 @@
                         <div class="box-body">
                             <div class="form-group">
                                 <label>제목</label>
-                                <input type="text" id="title" name="title" class="form-control" placeholder="제목을 입력해주세요">
+                                <input type="text" id="title" name="title" class="form-control" placeholder="제목을 입력해주세요" value="">
                             </div>
 
                             <div class="form-group">
                                 <label>내용</label>
-                                <textarea class="form-control" id="content" name="content" rows="10" placeholder="내용을 입력해주세요 style="resize: none;"></textarea>
+                                <textarea class="form-control" id="content" name="content" rows="10" placeholder="내용을 입력해주세요" style="resize: none;" value=""></textarea>
                             </div>
                         </div>
                         <div class="box-footer">
                             <button type="reset" class="btn btn-primary">초기화</button>
-                            <button type="submit" class="btn btn-primary">저장</button>
+                            <button type="submit" class="btn btn-primary" id="btn_write">저장</button>
+
                         </div>
                     </div>
                 </form>
@@ -46,6 +47,6 @@
     {{> include/main_footer}}
 </div>
 {{> include/plugin_js}}
-{{> js/script.js}}
+<script src="/js/board_script.js"></script>
 </body>
 </html>

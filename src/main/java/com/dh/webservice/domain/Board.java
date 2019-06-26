@@ -46,6 +46,4 @@ public class Board extends WebBaseTimeConfig {
     private int depth;
 
 
-
-
 }
