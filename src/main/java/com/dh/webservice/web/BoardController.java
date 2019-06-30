@@ -166,7 +166,11 @@ public class BoardController {
     @DeleteMapping("/delete/{bNo}")
     @ResponseBody
     public boolean delete(@PathVariable int bNo, Principal principal) {
+<<<<<<< HEAD
 >>>>>>> master
+=======
+>>>>>>> ac31268f1a1e6f182faa7aaef9a966768effbaed
+>>>>>>> b8bfa1dd6ea6538834f3dca36fe8a07b0ecbf735
 
         String writer = principal.getName();
 
