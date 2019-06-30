@@ -45,7 +45,7 @@ $(document).ready(function(){
                 // contentType: "application/json; charset=utf-8",
                 // data: data
             }).done(function (data) {
-                location.href= "/board/list//" + pageNo +"/?pageSize=" + pageSize;
+                location.href= "/board/list/" + pageNo +"/?pageSize=" + pageSize;
 
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 alert("관리자에게 문의해주세요.");
@@ -84,13 +84,14 @@ $(document).ready(function(){
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(data)
-            }).done(function (data) {
-                if(data.content == null){
-                    alert("자신이 쓴 글만 수정 가능합니다.");
-                    history.go(-1);
-                }else{
+            }).done(function (result) {
+                console.log(result);
+                if(result.bno > 0){
                     alert("수정되었습니다.");
-                    location.href= "/board/detail/" + data.bno;
+                    location.href= "/board/detail/" + result.bno;
+                }else{
+                    alert("자신이 쓴 글만 수정 할 수 있습니다.");
+                    history.go(0);
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 alert("관리자에게 문의해주세요.");
@@ -102,16 +103,17 @@ $(document).ready(function(){
             $.ajax({
                 type: "DELETE",
                 url: "/board/delete/" + bNo,
-            }).done(function (data) {
-                alert("삭제되었습니다.");
-                location.href= "/board/list/1";
+            }).done(function (result) {
+                if(result === true){
+                    alert("삭제되었습니다.");
+                    location.href= "/board/list/1";
+                }else{
+                    alert("자신이 쓴 글만 삭제 할 수 있습니다.");
+                    history.go(0);
+                }
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 alert("관리자에게 문의해주세요.");
-                console.log(jqXHR.reponseJSON.path);
-                console.log(textStatus);
-                console.log(errorThrown);
-                // console.log("sss : " + responseJSON);
-                // console.log(jqXHR, " " + textStatus + " " + errorThrown + " ");
+                console.log(jqXHR, " " + textStatus + " " + errorThrown + " ");
             });
         },
 
