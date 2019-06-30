@@ -23,6 +23,9 @@ $(document).ready(function(){
             $("#btn_delete").on("click", function () {
                 _this.getDelete();
             });
+            $('#pagenation').bootpag({}).on('page', function (event, num) {
+                board.getList(num);
+            });
             return this;
         },
         getList: function (pageNo) {
@@ -42,13 +45,7 @@ $(document).ready(function(){
                 // contentType: "application/json; charset=utf-8",
                 // data: data
             }).done(function (data) {
-                $('#pagenation').bootpag({}).on('page', function (event, num) {
-                    board.getList(num);
-                });
-                console.log(data);
-                return false;
-
-                location.href= "/board/list/" + pageNo +"/?pageSize=" + pageSize;
+                location.href= "/board/list//" + pageNo +"/?pageSize=" + pageSize;
 
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 alert("관리자에게 문의해주세요.");
@@ -93,6 +90,9 @@ $(document).ready(function(){
                     location.href= "/board/detail/" + data.bNo;
                 }else{
                     alert("수정되었습니다.");
+                    alert(data.bNo);
+                    console.log(data);
+                    return;
                     location.href= "/board/detail/" + data.bNo;
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -106,10 +106,6 @@ $(document).ready(function(){
                 type: "DELETE",
                 url: "/board/delete/" + bNo,
             }).done(function (data) {
-
-                console.log(data);
-                return false;
-
                 alert("삭제되었습니다.");
                 location.href= "/board/list/1";
             }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -123,7 +119,7 @@ $(document).ready(function(){
         },
 
     };
-    board.init().getList();
+    board.init();
 });
 
 
