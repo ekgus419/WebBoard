@@ -172,7 +172,7 @@ public class BoardController {
 
         // 존재하지 않는 게시글 (삭제 게시글 포함) 접근하는 경우
         if(board == null) {
-            return "/board/404";
+            return false;
         }
 
         // 작성자인지 확인
