@@ -116,6 +116,27 @@ public class BoardController {
         return "/board/update";
     }
 
+//    @PutMapping("/update/{bNo}")
+//    @ResponseBody
+//    public Board update(@PathVariable int bNo, @RequestBody Board board, Principal principal) {
+//        String writer = principal.getName();
+//
+//        // 작성자인지 확인
+//        if(board.getWriter().equals(writer)) {
+//            Board updateBoard = boardRepository.findOne(bNo);
+//
+//            // 수정 시 제목, 내용 이외 기존 사항 반영
+//            updateBoard.setBno(bNo);
+//            updateBoard.setTitle(board.getTitle());
+//            updateBoard.setContent(board.getContent());
+//
+//            return boardRepository.save(updateBoard);
+//        }else{
+//            return new Board();
+//        }
+//
+//    }
+
     @PutMapping("/update/{bNo}")
     @ResponseBody
     public Board update(@PathVariable int bNo, @RequestBody Board board, Principal principal) {
@@ -137,9 +158,15 @@ public class BoardController {
 
     }
 
+<<<<<<< HEAD
 /*    @DeleteMapping("/delete/{bNo}")
 //    @ResponseBody
     public String delete(@PathVariable int bNo, Principal principal) {
+=======
+    @DeleteMapping("/delete/{bNo}")
+    @ResponseBody
+    public boolean delete(@PathVariable int bNo, Principal principal) {
+>>>>>>> master
 
         String writer = principal.getName();
 
@@ -148,15 +175,15 @@ public class BoardController {
 
         // 존재하지 않는 게시글 (삭제 게시글 포함) 접근하는 경우
         if(board == null) {
-            return "/board/404";
+            return false;
         }
 
         // 작성자인지 확인
         if(board.getWriter().equals(writer)) {
             boardRepository.delete(bNo);
-            return "/board/list";
+            return true;
         }else{
-            return "/board/list?error=true";
+            return false;
         }
 
     }*/
@@ -184,7 +211,6 @@ public class BoardController {
         }
 
     }
-
 
 
 }
