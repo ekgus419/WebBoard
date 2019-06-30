@@ -20,16 +20,6 @@ public class WebController {
         return "/signin";
     }
 
-//    @GetMapping("/index")
-//    public ModelAndView index() {
-//        ModelAndView mav = new ModelAndView();
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        User user = userService.findUserByUserEmail(auth.getName());
-//        mav.addObject("userName", user.getUserName());
-//        return mav;
-//
-//    }
-
     @GetMapping("/signup")
     public String signup() {
         return "signup";

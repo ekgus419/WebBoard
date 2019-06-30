@@ -18,76 +18,73 @@
             </ol>
         </section>
         <section class="content container-fluid">
-            <div class="col-lg-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">게시글 목록 (totalCount)</h3>
-                    </div>
-                    <div class="box-body">
-                    <!--게시글 목록 영역-->
-                        <div>
-                            <table class="table table-bordered">
-                                <tbody>
-                                <tr>
-                                    <th style="width: 10px">NO</th>
-                                    <th>제목</th>
-                                    <th style="width: 100px">작성자</th>
-                                    <th style="width: 150px">작성시간</th>
-                                    <th style="width: 50px">조회</th>
-                                </tr>
-                                    {{#boardList}}
+            <form name="form_list" id="form_list" onsubmit="return false">
+                <div class="col-lg-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">게시글 목록 (totalCount)</h3>
+                        </div>
+                        <div class="box-body">
+                        <!--게시글 목록 영역-->
+                            <div>
+                                <table class="table table-bordered">
+                                    <tbody>
                                     <tr>
-                                        <td>{{bno}}</td>
-                                        <td><a href="/board/detail/{{bno}}">{{title}}</a></td>
-                                        <td>{{writer}}</td>
-                                        <td>{{createdDate}}</td>
-                                        <td><span class="badge bg-aqua">{{hit}}</span></td>
+                                        <th style="width: 10px">NO</th>
+                                        <th>제목</th>
+                                        <th style="width: 100px">작성자</th>
+                                        <th style="width: 150px">작성시간</th>
+                                        <th style="width: 50px">조회</th>
                                     </tr>
-                                    {{/boardList}}
-                                </c:forEach>
-                                </tbody>
-                            </table>
+                                        {{#boardList}}
+                                        <tr>
+                                            <td>{{bno}}</td>
+                                            <td><a href="/board/detail/{{bno}}">{{title}}</a></td>
+                                            <td>{{writer}}</td>
+                                            <td>{{createdDate}}</td>
+                                            <td><span class="badge bg-aqua">{{hit}}</span></td>
+                                        </tr>
+                                        {{/boardList}}
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--페이징 처리 영역-->
+                            <div class="text-center">
+                                <ul class="pagination">
+                                </ul>
+                            </div>
                         </div>
-                        <!--페이징 처리 영역-->
-                        <div class="text-center">
-                            <ul class="pagination">
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="box-footer">
-                        <br/>
-                        <div class="form-group col-sm-2">
-                            <select class="form-control" name="searchType" id="searchType">
-                                <option value="">선택</option>
-                                <option value="">제목</option>
-                                <option value="">내용</option>
-<!--                                <option value="n" <c:out value="${criteria.searchType == null ? 'selected' : ''}"/>>:::::: 선택 ::::::</option>-->
-<!--                                <option value="t" <c:out value="${criteria.searchType eq 't' ? 'selected' : ''}"/>>제목</option>-->
-<!--                                <option value="c" <c:out value="${criteria.searchType eq 'c' ? 'selected' : ''}"/>>내용</option>-->
-<!--                                <option value="w" <c:out value="${criteria.searchType eq 'w' ? 'selected' : ''}"/>>작성자</option>-->
-<!--                                <option value="tc" <c:out value="${criteria.searchType eq 'tc' ? 'selected' : ''}"/>>제목+내용</option>-->
-<!--                                <option value="cw" <c:out value="${criteria.searchType eq 'cw' ? 'selected' : ''}"/>>내용+작성자</option>-->
-<!--                                <option value="tcw" <c:out value="${criteria.searchType eq 'tcw' ? 'selected' : ''}"/>>제목+내용+작성자</option>-->
-                            </select>
-                        </div>
-                        <div class="form-group col-sm-10">
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="keyword" id="keywordInput" value="${criteria.keyword}" placeholder="검색어">
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-primary btn-flat" id="searchBtn">
-                                        <i class="fa fa-search"></i> 검색
-                                    </button>
-                                </span>
+                        <div class="box-footer">
+                            <br/>
+                            <div class="form-group col-sm-2">
+                                <select class="form-control" name="searchType" id="searchType">
+                                    <option value="">선택</option>
+                                    <option value="">제목</option>
+                                    <option value="">내용</option>
+                                </select>
+                            </div>
+                            <div class="page_num pa_t10 paginated" id="pagenation">
+                            </div>
+                            <div class="form-group col-sm-10">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="keyword" id="keywordInput" value="${criteria.keyword}" placeholder="검색어">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary btn-flat" id="searchBtn">
+                                            <i class="fa fa-search"></i> 검색
+                                        </button>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-success btn-flat" id="writeBtn">
+                            <i class="fa fa-edit"></i> <a href="/board/write">글쓰기1</a>
+                        </button>
+                    </div>
                 </div>
-                <div class="pull-right">
-                    <button type="button" class="btn btn-success btn-flat" id="writeBtn">
-                        <i class="fa fa-edit"></i> <a href="/board/write">글쓰기1</a>
-                    </button>
-                </div>
-            </div>
+            </form>
         </section>
     </div>
     {{> include/main_footer}}

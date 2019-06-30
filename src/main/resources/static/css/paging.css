@@ -1,0 +1,16 @@
+@charset "utf-8";
+.pa_t10{padding-top:10px;}
+
+.page_num{clear:both; line-height:normal;}
+.page_num a,
+.page_num strong{display:inline-block; position:relative;/*margin:0 -2px;*/padding:2px 6px; text-align:center; font-size:14px; color:#555; line-height:normal; text-decoration:none;vertical-align:middle}
+.page_num a:hover,
+.page_num a:active,
+.page_num a:focus{background-color:#fff}
+.page_num strong{color:#333; font-weight:bold;}
+.page_num:after{content:""; display:block; clear:both;}
+
+.paginated{position:relative; height:30px;}
+.pagination{display:table; margin:0 auto;}
+.pagination li{ line-height:normal; font-size:14px; float:left; }
+.pagination .active{font-weight:bold;}
