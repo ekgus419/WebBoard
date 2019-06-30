@@ -158,35 +158,6 @@ public class BoardController {
 
     }
 
-<<<<<<< HEAD
-/*    @DeleteMapping("/delete/{bNo}")
-//    @ResponseBody
-    public String delete(@PathVariable int bNo, Principal principal) {
-=======
-    @DeleteMapping("/delete/{bNo}")
-    @ResponseBody
-    public boolean delete(@PathVariable int bNo, Principal principal) {
->>>>>>> master
-
-        String writer = principal.getName();
-
-        // 기존 게시글
-        Board board = boardRepository.findOne(bNo);
-
-        // 존재하지 않는 게시글 (삭제 게시글 포함) 접근하는 경우
-        if(board == null) {
-            return false;
-        }
-
-        // 작성자인지 확인
-        if(board.getWriter().equals(writer)) {
-            boardRepository.delete(bNo);
-            return true;
-        }else{
-            return false;
-        }
-
-    }*/
 
     @DeleteMapping("/delete/{bNo}")
     @ResponseBody
