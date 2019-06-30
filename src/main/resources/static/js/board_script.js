@@ -87,13 +87,10 @@ $(document).ready(function(){
             }).done(function (data) {
                 if(data.content == null){
                     alert("자신이 쓴 글만 수정 가능합니다.");
-                    location.href= "/board/detail/" + data.bNo;
+                    history.go(-1);
                 }else{
                     alert("수정되었습니다.");
-                    alert(data.bNo);
-                    console.log(data);
-                    return;
-                    location.href= "/board/detail/" + data.bNo;
+                    location.href= "/board/detail/" + data.bno;
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 alert("관리자에게 문의해주세요.");

@@ -137,7 +137,7 @@ public class BoardController {
 
     }
 
-    @DeleteMapping("/delete/{bNo}")
+/*    @DeleteMapping("/delete/{bNo}")
 //    @ResponseBody
     public String delete(@PathVariable int bNo, Principal principal) {
 
@@ -157,6 +157,30 @@ public class BoardController {
             return "/board/list";
         }else{
             return "/board/list?error=true";
+        }
+
+    }*/
+
+    @DeleteMapping("/delete/{bNo}")
+    @ResponseBody
+    public boolean delete(@PathVariable int bNo, Principal principal) {
+
+        String writer = principal.getName();
+
+        // 기존 게시글
+        Board board = boardRepository.findOne(bNo);
+
+        // 존재하지 않는 게시글 (삭제 게시글 포함) 접근하는 경우
+        if(board == null) {
+            return false;
+        }
+
+        // 작성자인지 확인
+        if(board.getWriter().equals(writer)) {
+            boardRepository.delete(bNo);
+            return true;
+        }else{
+            return false;
         }
 
     }
