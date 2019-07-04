@@ -66,9 +66,9 @@ public class WebSecurityHandler implements AuthenticationSuccessHandler, Authent
                 }
             }
             if (isUser) {
-                return "/board/list/1";
+                return "/board/list?pageNo=1&pageSize=10";
             } else if (isAdmin) {
-                return "/board/list/1";
+                return "/board/list?pageNo=1&pageSize=10";
             } else {
                 throw new IllegalStateException();
             }

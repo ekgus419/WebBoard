@@ -17,10 +17,10 @@ public class BoardServiceImpl implements BoardService {
     BoardRepository boardRepository;
 
     @Override
-    public Page<Board> findAll(Integer pageNum, Integer pageSize) {
+    public Page<Board> findAll(Integer pageNo, Integer pageSize) {
         /* 게시판 리스트 보기  curPage : 요청하는 페이지 , 첫페이지는 0부터 시작  */
 
-        PageRequest pr = new PageRequest(pageNum-1, pageSize,
+        PageRequest pr = new PageRequest(pageNo, pageSize,
                 new Sort(
                         new Order(Direction.DESC,"createdDate")
                 )

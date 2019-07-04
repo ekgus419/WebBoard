@@ -1,19 +1,19 @@
 package com.dh.webservice.web;
 
 import com.dh.webservice.domain.Board;
+import com.dh.webservice.domain.dto.BoardResponse;
 import com.dh.webservice.repository.BoardRepository;
 import com.dh.webservice.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -27,39 +27,40 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
-//    @GetMapping("/list")
-//    public String list(Model model, Principal principal) {
-//        String writer = principal.getName();
-//        List<Board> boardList = boardRepository.findAll();
-//        model.addAttribute("userName", writer);
-//        model.addAttribute("boardList", boardList);
-//        return "/board/list";
-//
-//    }
-
-    @GetMapping("/list/{pageNum}")
-    public String list(Model model, Pageable pageable, @PathVariable Integer pageNum, Integer pageSize, Principal principal){
-
+    //    @ResponseBody // 리스펀스바디 -> 응답시, 리퀘스트 -> 요청시
+    @GetMapping("/list")
+    public ModelAndView list(Optional<Integer> pageNo, Optional<Integer> pageSize, Principal principal){
         String writer = principal.getName();
-        if(pageSize == null){
-            pageSize = 10;
-        }
+        int evalPageSize = pageSize.orElse(10);
+        int evalPage = (pageNo.orElse(0) < 1) ? 0 : pageNo.get() - 1;
 
-        Page<Board> page = boardService.findAll(pageNum, pageSize);
+        // ajax Data
+        Page<Board> page = boardService.findAll(evalPage, evalPageSize);
+        ModelAndView model = new ModelAndView("/board/list");
+        // 현재 페이지
+        int currentPage = page.getNumber()+1;
+        // 전체 페이지
+        int totalPages = page.getTotalPages();
+        // 전체 데이터수
+        long listCount = page.getTotalElements();
 
-        int current = page.getNumber()+1;
-        int begin  =  Math.max(1, current - 5);
-        int end  =  Math.min(begin + 10, page.getTotalPages());
+        BoardResponse boardResponse = new BoardResponse();
 
-//        model.addAttribute("page", page);
-        model.addAttribute("beginIndex", begin);
-        model.addAttribute("endIndex", end);
-        model.addAttribute("currentIndex", current);
-        model.addAttribute("userName", writer);
-        model.addAttribute("boardList", page);
+        boardResponse.setBoardList(page);
+        boardResponse.setCurrentPage(currentPage);
+        boardResponse.setTotalPages(totalPages);
+        boardResponse.setListCount(listCount);
+        boardResponse.setUserName(writer);
+        model.addObject("currentPage", boardResponse.getCurrentPage());
+        model.addObject("boardList", boardResponse.getBoardList());
+        model.addObject("totalPages", boardResponse.getTotalPages());
+        model.addObject("userName", boardResponse.getUserName());
+        model.addObject("listCount", boardResponse.getListCount());
 
-        return "/board/list";
+        return model;
     }
+
+
 
     @GetMapping("/write")
     public String write() {
@@ -115,27 +116,6 @@ public class BoardController {
 
         return "/board/update";
     }
-
-//    @PutMapping("/update/{bNo}")
-//    @ResponseBody
-//    public Board update(@PathVariable int bNo, @RequestBody Board board, Principal principal) {
-//        String writer = principal.getName();
-//
-//        // 작성자인지 확인
-//        if(board.getWriter().equals(writer)) {
-//            Board updateBoard = boardRepository.findOne(bNo);
-//
-//            // 수정 시 제목, 내용 이외 기존 사항 반영
-//            updateBoard.setBno(bNo);
-//            updateBoard.setTitle(board.getTitle());
-//            updateBoard.setContent(board.getContent());
-//
-//            return boardRepository.save(updateBoard);
-//        }else{
-//            return new Board();
-//        }
-//
-//    }
 
     @PutMapping("/update/{bNo}")
     @ResponseBody

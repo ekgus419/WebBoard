@@ -1,19 +1,8 @@
 $(document).ready(function(){
-    var pagenationConf = {
-        leaps: false,
-        firstLastUse: true,
-        next: '<img src="/images/paging/next_1.gif" alt="뒤로버튼" />',
-        prev: '<img src="/images/paging/prev_2.gif" alt="맨앞으로버튼" />',
-        first: '<img src="/images/paging/prev_1.gif" alt="맨앞으로버튼" />',
-        last: '<img src="/images/paging/next_2.gif" alt="맨뒤로버튼" />'
-    };
     // 글쓰기
     var board = {
         init: function () {
             var _this = this;
-            $("#btn_list").on("click", function () {
-                _this.getList();
-            });
             $("#btn_write").on("click", function () {
                 _this.getWrite();
             });
@@ -23,34 +12,25 @@ $(document).ready(function(){
             $("#btn_delete").on("click", function () {
                 _this.getDelete();
             });
-            $('#pagenation').bootpag({}).on('page', function (event, num) {
-                board.getList(num);
+            $('#pagenation').bootpag({
+                total: $("#totalPages").val(), // total pages
+                page: $("#currentPage").val(), // default page
+                maxVisible: 10, // visible pagination
+                leaps: false,
+                firstLastUse: true,
+                next: '<img src="/images/paging/next_1.gif" alt="뒤로버튼" />',
+                prev: '<img src="/images/paging/prev_2.gif" alt="맨앞으로버튼" />',
+                first: '<img src="/images/paging/prev_1.gif" alt="맨앞으로버튼" />',
+                last: '<img src="/images/paging/next_2.gif" alt="맨뒤로버튼" />'
+            }).unbind("page").bind("page").on("page", function (event, pageNo) {
+                window.location.replace("/board/list?pageNo=" + pageNo + "&pageSize=10");
+            });
+
+            // init page 1
+            $("#btn_list").on('click', function(){
+                window.location.replace("/board/list?pageNo=1&pageSize=10");
             });
             return this;
-        },
-        getList: function (pageNo) {
-            // var data = $("#form_list").serializeArray();
-            // data.push({name: 'page', value: pageNo || 1});
-            // data.push({name: 'pagesize', value: 10});
-            // data.push({name: 'pagesize', value: pageSize || 10});
-            // http://localhost:8080/board/list/1?pageSize=3
-            var pageSize=10;
-            if(typeof pageNo == "undefined"){
-                pageNo=1;
-            }
-            $.ajax({
-                type: "GET",
-                url: "/board/list/" + pageNo +"/?pageSize=" + pageSize,
-                // dataType: "json",
-                // contentType: "application/json; charset=utf-8",
-                // data: data
-            }).done(function (data) {
-                location.href= "/board/list/" + pageNo +"/?pageSize=" + pageSize;
-
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                alert("관리자에게 문의해주세요.");
-                console.log(jqXHR, " " + textStatus + " " + errorThrown + " ");
-            });
         },
         getWrite: function () {
             var data = {
@@ -65,10 +45,10 @@ $(document).ready(function(){
                 data: JSON.stringify(data)
             }).done(function () {
                 alert("등록 되었습니다.");
-                location.href= "/board/list/1";
+                window.location.replace("/board/list?pageNo=1&pageSize=10");
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 alert("관리자에게 문의해주세요.");
-                // console.log(jqXHR, " " + textStatus + " " + errorThrown + " ");
+                console.log(jqXHR, " " + textStatus + " " + errorThrown + " ");
             });
         },
         getUpdate: function () {
@@ -106,7 +86,7 @@ $(document).ready(function(){
             }).done(function (result) {
                 if(result === true){
                     alert("삭제되었습니다.");
-                    location.href= "/board/list/1";
+                    window.location.replace("/board/list?pageNo=1&pageSize=10");
                 }else{
                     alert("자신이 쓴 글만 삭제 할 수 있습니다.");
                     history.go(0);
@@ -119,6 +99,7 @@ $(document).ready(function(){
 
     };
     board.init();
+
 });
 
 
