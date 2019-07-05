@@ -24,6 +24,11 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">전체 데이터 수 <b> {{listCount}} </b></h3>
                         </div>
+                        <div class="pull-right">
+                            <a href="/board/write" class="btn btn-success btn-icon-split">
+                                <span class="text">글쓰기</span>
+                            </a>
+                        </div>
                         <div class="box-body">
                         <!--게시글 목록 영역-->
                             <div>
@@ -38,8 +43,8 @@
                                     </tr>
                                         {{#boardList}}
                                         <tr>
-                                            <td>{{bno}}</td>
-                                            <td><a href="/board/detail/{{bno}}">{{title}}</a></td>
+                                            <td>{{bNo}}</td>
+                                            <td><a href="/board/detail/{{bNo}}">{{title}}</a></td>
                                             <td>{{writer}}</td>
                                             <td>{{createdDate}}</td>
                                             <td><span class="badge bg-aqua">{{hit}}</span></td>
@@ -78,12 +83,6 @@
                     <div class="page_num pa_t10 paginated" id="pagenation">
                         <input type="hidden" value="{{currentPage}}" name="currentPage" id="currentPage" />
                         <input type="hidden" value="{{totalPages}}" name="totalPages" id="totalPages" />
-                    </div>
-
-                    <div class="pull-right">
-                        <button type="button" class="btn btn-success btn-flat" id="writeBtn">
-                            <i class="fa fa-edit"></i> <a href="/board/write">글쓰기1</a>
-                        </button>
                     </div>
                 </div>
             </form>

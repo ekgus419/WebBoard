@@ -35,7 +35,7 @@ public class BoardController {
         int evalPage = (pageNo.orElse(0) < 1) ? 0 : pageNo.get() - 1;
 
         // ajax Data
-        Page<Board> page = boardService.findAll(evalPage, evalPageSize);
+        Page<Board> page = boardService.getfindAll(evalPage, evalPageSize);
         ModelAndView model = new ModelAndView("/board/list");
         // 현재 페이지
         int currentPage = page.getNumber()+1;
@@ -71,11 +71,18 @@ public class BoardController {
     @PostMapping("/write")
     @ResponseBody
     public Board write(@RequestBody Board board, Principal principal) {
+
+        System.out.println(board.toString());
+
         String writer = principal.getName();
         // 작성자인지 확인
         if(!writer.equals("") &&  writer.trim().length() > 0) {
             board.setWriter(writer);
-            return boardRepository.save(board);
+            // 게시글 저장
+            Board saveBoard = boardRepository.save(board);
+            // 생성된 bNo로 groupNo 설정
+            saveBoard.setGroupNo(saveBoard.getBNo());
+            return boardRepository.save(saveBoard);
         }else{
             return new Board();
         }
@@ -127,7 +134,7 @@ public class BoardController {
             Board updateBoard = boardRepository.findOne(bNo);
 
             // 수정 시 제목, 내용 이외 기존 사항 반영
-            updateBoard.setBno(bNo);
+            updateBoard.setBNo(bNo);
             updateBoard.setTitle(board.getTitle());
             updateBoard.setContent(board.getContent());
 
@@ -163,5 +170,54 @@ public class BoardController {
 
     }
 
+
+    @GetMapping("/write/{bNo}")
+    public String writeReply(@PathVariable int bNo, Model model) {
+        // 답글의 답글인 경우
+        // groupNo가 있는지 확인
+        System.out.println(bNo);
+//        int groupNo = boardService.getGroupNoBybNo(bNo);
+        int groupNo = boardService.getfindOne(bNo).getGroupNo();
+        System.out.println("groupNo : " + groupNo);
+
+        model.addAttribute("groupNo", groupNo);
+        model.addAttribute("parentNo", bNo);
+
+        return "/board/reply";
+    }
+
+    @PostMapping("/writeReply")
+    @ResponseBody
+    public Board writeReply(@RequestBody Board board, Principal principal) {
+
+        System.out.println("================= writeReply(); ====================== ");
+        System.out.println("board.toStrint();  : " + board.toString() );
+
+        String writer = principal.getName();
+        // 작성자인지 확인
+        if(!writer.equals("") &&  writer.trim().length() > 0) {
+
+            int groupNo = board.getGroupNo();
+            int parentNo = board.getParentNo();
+            // 원글의 답글인 경우
+            if(parentNo == 0) {
+                parentNo = groupNo;
+            }
+
+            int groupSeq = boardRepository.findMaxGroupSeqByGroupNo(groupNo);
+            int depth = boardRepository.findMaxDepthByParentNo(parentNo);
+
+            board.setParentNo(parentNo);
+            board.setGroupSeq(groupSeq+1);
+            board.setDepth(depth+1);
+            board.setWriter(writer);
+
+            return boardRepository.save(board);
+
+        }else{
+            return new Board();
+        }
+
+    }
 
 }

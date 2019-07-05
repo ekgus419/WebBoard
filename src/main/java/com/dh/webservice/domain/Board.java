@@ -13,7 +13,7 @@ public class Board extends WebBaseTimeConfig {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "BNO")
-    private int bno;
+    private int bNo;
 
     @Column(name = "TITLE")
     private String title;

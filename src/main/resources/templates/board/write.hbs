@@ -19,6 +19,7 @@
         <section class="content container-fluid">
             <div class="col-lg-12">
                 <form onsubmit="return false;">
+                    <input type="hidden" value="{{groupNo}}" name="groupNo" id="groupNo" />
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">게시글 입력</h3>
@@ -37,7 +38,6 @@
                         <div class="box-footer">
                             <button type="reset" class="btn btn-primary">초기화</button>
                             <button type="submit" class="btn btn-primary" id="btn_write">저장</button>
-
                         </div>
                     </div>
                 </form>

@@ -33,13 +33,20 @@ $(document).ready(function(){
             return this;
         },
         getWrite: function () {
+            // 답글의 경우 url 변경
+            var groupNo = $("#groupNo").val() ? $("#groupNo").val() : 0;
+            var parentNo =  $("#parentNo").val() ? $("#parentNo").val() : 0;
+            var url = (groupNo) ? "/board/writeReply" : "/board/write";
             var data = {
                 title: $("#title").val(),
-                content: $("#content").val()
+                content: $("#content").val(),
+                groupNo: groupNo,
+                parentNo: parentNo
             };
             $.ajax({
                 type: "POST",
-                url: "/board/write",
+                // url: "/board/write",
+                url: url,
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(data)
@@ -66,9 +73,9 @@ $(document).ready(function(){
                 data: JSON.stringify(data)
             }).done(function (result) {
                 console.log(result);
-                if(result.bno > 0){
+                if(result.bNo > 0){
                     alert("수정되었습니다.");
-                    location.href= "/board/detail/" + result.bno;
+                    location.href= "/board/detail/" + result.bNo;
                 }else{
                     alert("자신이 쓴 글만 수정 할 수 있습니다.");
                     history.go(0);
