@@ -1,3 +1,9 @@
+/**
+ * @author cdh
+ * @since 2019-07-01
+ * @copyright  Copyright dh-0419(https://github.com/ekgus419/WebBoard)
+ *
+ */
 package com.dh.webservice.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,6 +21,12 @@ import org.springframework.web.servlet.config.annotation.*;
 
 import java.util.List;
 
+/**
+ * @title 특수 문자 처리 기능 적용 후 MessageConverter 등록
+ * @author cdh
+ * @FileName WebConfig
+ * @version  https://github.com/HomoEfficio/
+ */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 

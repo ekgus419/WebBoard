@@ -1,3 +1,9 @@
+/**
+ * @author cdh
+ * @since 2019-07-01
+ * @copyright  Copyright dh-0419(https://github.com/ekgus419/WebBoard)
+ *
+ */
 package com.dh.webservice.config;
 
 import com.fasterxml.jackson.core.SerializableString;
@@ -12,6 +18,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @title XSS 방지 처리할 특수 문자를 다음과 같이 CharacterEscapes를 상속한 클래스를 지정한다.
+ * @author cdh
+ * @FileName HTMLCharacterEscapes
+ * @version https://github.com/HomoEfficio/
+ */
 @SuppressWarnings("serial")
 public class HTMLCharacterEscapes extends CharacterEscapes {
 

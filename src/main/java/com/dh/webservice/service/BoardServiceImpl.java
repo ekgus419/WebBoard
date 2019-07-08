@@ -1,3 +1,9 @@
+/**
+ * @author cdh
+ * @since 2019-07-01
+ * @copyright  Copyright dh-0419(https://github.com/ekgus419/WebBoard)
+ *
+ */
 package com.dh.webservice.service;
 
 import com.dh.webservice.domain.Board;
@@ -10,6 +16,12 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
+/**
+ * @title BoardService를 구현한 파일
+ * @author cdh
+ * @FileName : BoardServiceImpl
+ *
+ */
 @Service
 public class BoardServiceImpl implements BoardService {
 

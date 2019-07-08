@@ -1,3 +1,10 @@
+/**
+ * @author cdh
+ * @since 2019-07-01
+ * @copyright  Copyright dh-0419(https://github.com/ekgus419/WebBoard)
+ *
+ */
+
 package com.dh.webservice.web;
 
 import com.dh.webservice.domain.Board;
@@ -15,7 +22,12 @@ import org.springframework.web.servlet.ModelAndView;
 import java.security.Principal;
 import java.util.Optional;
 
-
+/**
+ * @title Board 컨트롤러 파일
+ * @author cdh
+ * @FileName : BoardController
+ *
+ */
 @Controller
 @RequestMapping("/board/")
 @Transactional
@@ -27,7 +39,13 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
-    //    @ResponseBody // 리스펀스바디 -> 응답시, 리퀘스트 -> 요청시
+    /**
+     * 전체 게시글 목록
+     * @param pageNo
+     * @param pageSize
+     * @param principal
+     * @return 전체 게시글 목록 List
+     */
     @GetMapping("/list")
     public ModelAndView list(Optional<Integer> pageNo, Optional<Integer> pageSize, Principal principal){
         String writer = principal.getName();
@@ -60,14 +78,20 @@ public class BoardController {
         return model;
     }
 
-
-
+    /**
+     * 게시글 등록
+     * @return 게시글 등록 뷰 페이지
+     */
     @GetMapping("/write")
     public String write() {
         return "/board/write";
     }
 
-
+    /**
+     * 게시글 등록
+     * @param board
+     * @return 등록된 게시글 Entity
+     */
     @PostMapping("/write")
     @ResponseBody
     public Board write(@RequestBody Board board, Principal principal) {
@@ -89,7 +113,13 @@ public class BoardController {
 
     }
 
-
+    /**
+     * 게시글 상세 페이지
+     * @param bNo
+     * @param model
+     * @param principal
+     * @return 게시글 상세 뷰 페이지
+     */
     @GetMapping("/detail/{bNo}")
     public String detail(@PathVariable int bNo, Model model, Principal principal) {
 
@@ -116,6 +146,12 @@ public class BoardController {
 
     }
 
+    /**
+     * 게시글 수정 페이지
+     * @param bNo
+     * @param model
+     * @return 게시글 수정 뷰 페이지
+     */
     @GetMapping("/update/{bNo}")
     public String update(@PathVariable int bNo, Model model) {
 
@@ -124,6 +160,12 @@ public class BoardController {
         return "/board/update";
     }
 
+    /**
+     * 게시글 수정
+     * @param bNo
+     * @param board
+     * @return 수정된 게시글 Entity
+     */
     @PutMapping("/update/{bNo}")
     @ResponseBody
     public Board update(@PathVariable int bNo, @RequestBody Board board, Principal principal) {
@@ -145,7 +187,11 @@ public class BoardController {
 
     }
 
-
+    /**
+     * 게시글 삭제
+     * @param bNo
+     * @return boolean
+     */
     @DeleteMapping("/delete/{bNo}")
     @ResponseBody
     public boolean delete(@PathVariable int bNo, Principal principal) {
@@ -170,6 +216,12 @@ public class BoardController {
 
     }
 
+    /**
+     * 답글 등록 페이지
+     * @param bNo
+     * @param model
+     * @return 답글 등록 뷰 페이지
+     */
     @GetMapping("/write/{bNo}")
     public String writeReply(@PathVariable int bNo, Model model) {
         // 답글의 답글인 경우
@@ -184,6 +236,12 @@ public class BoardController {
         return "/board/reply";
     }
 
+    /**
+     * 답글 등록
+     * @param board
+     * @param principal
+     * @return 등록된 답글 Entity
+     */
     @PostMapping("/writeReply")
     @ResponseBody
     public Board writeReply(@RequestBody Board board, Principal principal) {
