@@ -226,10 +226,7 @@ public class BoardController {
     public String writeReply(@PathVariable int bNo, Model model) {
         // 답글의 답글인 경우
         // groupNo가 있는지 확인
-        System.out.println(bNo);
         int groupNo = boardService.getfindOne(bNo).getGroupNo();
-        System.out.println("groupNo : " + groupNo);
-
         model.addAttribute("groupNo", groupNo);
         model.addAttribute("parentNo", bNo);
 
@@ -246,9 +243,6 @@ public class BoardController {
     @ResponseBody
     public Board writeReply(@RequestBody Board board, Principal principal) {
 
-        System.out.println("================= writeReply(); ====================== ");
-        System.out.println("board.toStrint();  : " + board.toString() );
-
         String writer = principal.getName();
         // 작성자인지 확인
         if(!writer.equals("") &&  writer.trim().length() > 0) {
@@ -260,24 +254,37 @@ public class BoardController {
                 parentNo = groupNo;
             }
 
-            // Max Seq
+            // parentNo로 부모글 컬럼 가져오기
+            Board parentBoard = boardRepository.findOneByBno(parentNo);
+
+            // 부모글 groupSeq
+            int parentGroupSeq = parentBoard.getGroupSeq();
+            int maxParentGroupSeq = parentGroupSeq + 1;
+
+            // 부모글 depth
+            int parentDepth = parentBoard.getDepth();
+
+            // 답글의 groupSeq
             int groupSeq = boardRepository.findMaxGroupSeqByGroupNo(groupNo);
 
-            // 부모글 Seq
-            int parentGroupSeq = boardRepository.findGroupSeqByParentNo(parentNo)+1;
-            int depth = boardRepository.findDepthByParentNo(parentNo);
+            // Max Seq
+            int maxGroupSeq = groupSeq+1;
 
-            // 부모글 Seq 값이 있는지
-            int isValue = boardRepository.findGroupSeqByGroupNoAndGroupSeq(groupNo,parentGroupSeq);
+            // 작성한 글의 depth
+            int depth = parentDepth + 1;
 
-            if(isValue > 0 ){
-                boardRepository.updateAllGroupSeq(groupNo,groupSeq);
-                board.setGroupSeq(parentGroupSeq);
+            // 이미 존재하는 group_seq인지 확인
+            Board findBoard = boardRepository.findOneByGroupNoAndGroupSeq(groupNo,parentGroupSeq);
+            if(findBoard != null) {
+                // 이미 존재하는 group_seq
+                // 이 글부터 그룹 안에 있는 모든 group_seq 를 1 증가
+                board.setGroupSeq(maxParentGroupSeq);
+                boardRepository.updateAllGroupSeq(findBoard.getGroupNo(), findBoard.getGroupSeq(), parentGroupSeq);
             }else{
-                board.setGroupSeq(groupSeq+1);
+                 board.setGroupSeq(maxGroupSeq);
             }
             board.setParentNo(parentNo);
-            board.setDepth(depth+1);
+            board.setDepth(depth);
             board.setWriter(writer);
 
             return boardRepository.save(board);
@@ -288,4 +295,47 @@ public class BoardController {
 
     }
 
+//    public Board writeReply(@RequestBody Board board, Principal principal) {
+//
+//        System.out.println("================= writeReply(); ====================== ");
+//        System.out.println("board.toStrint();  : " + board.toString() );
+//
+//        String writer = principal.getName();
+//        // 작성자인지 확인
+//        if(!writer.equals("") &&  writer.trim().length() > 0) {
+//
+//            int groupNo = board.getGroupNo();
+//            int parentNo = board.getParentNo();
+//            // 원글의 답글인 경우
+//            if(parentNo == 0) {
+//                parentNo = groupNo;
+//            }
+//
+//            // Max Seq
+//            int groupSeq = boardRepository.findMaxGroupSeqByGroupNo(groupNo);
+//
+//            // 부모글 Seq
+//            int parentGroupSeq = boardRepository.findGroupSeqByParentNo(parentNo)+1;
+//            int depth = boardRepository.findDepthByParentNo(parentNo);
+//
+//            // 부모글 Seq 값이 있는지
+//            int isValue = boardRepository.findGroupSeqByGroupNoAndGroupSeq(groupNo,parentGroupSeq);
+//
+//            if(isValue > 0 ){
+//                boardRepository.updateAllGroupSeq(groupNo,groupSeq);
+//                board.setGroupSeq(parentGroupSeq);
+//            }else{
+//                board.setGroupSeq(groupSeq+1);
+//            }
+//            board.setParentNo(parentNo);
+//            board.setDepth(depth+1);
+//            board.setWriter(writer);
+//
+//            return boardRepository.save(board);
+//
+//        }else{
+//            return new Board();
+//        }
+//
+//    }
 }

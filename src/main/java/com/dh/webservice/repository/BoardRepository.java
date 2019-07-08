@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @title Board Entity Query 설정 파일
- * @author cdh
+ * @author cdhfindOneByGroupNoAndGroupSeq
  * @FileName BoardRepository
  *
  */
@@ -25,18 +25,23 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
     @Query(value="SELECT COALESCE(MAX(group_seq), 0) FROM BOARD WHERE group_no = :#{#groupNo}  ", nativeQuery=true)
     int findMaxGroupSeqByGroupNo(@Param("groupNo") int groupNo);
 
-    @Query(value="SELECT COALESCE(depth, 0) FROM BOARD WHERE bNo = :#{#parentNo}", nativeQuery=true)
-    int findDepthByParentNo(@Param("parentNo") int parentNo);
+//    @Query(value="SELECT COALESCE(depth, 0) FROM BOARD WHERE bNo = :#{#parentNo}", nativeQuery=true)
+//    int findDepthByParentNo(@Param("parentNo") int parentNo);
+//
+//    @Query(value="SELECT group_seq FROM board WHERE bno = :#{#parentNo}", nativeQuery=true)
+//    int findGroupSeqByParentNo(@Param("parentNo") int parentNo);
 
-    @Query(value="SELECT group_seq FROM board WHERE bno = :#{#parentNo}", nativeQuery=true)
-    int findGroupSeqByParentNo(@Param("parentNo") int parentNo);
+    @Query(value="SELECT * FROM BOARD WHERE group_no = :#{#groupNo} AND group_seq < :#{#parentGroupSeq} " , nativeQuery=true)
+    Board findOneByGroupNoAndGroupSeq(@Param("groupNo") int groupNo, @Param("parentGroupSeq") int parentGroupSeq);
 
-    @Query(value="SELECT COALESCE(MAX(group_seq), 0) FROM BOARD WHERE group_no = :#{#groupNo} AND group_seq < :#{#parentGroupSeq} " , nativeQuery=true)
-    int findGroupSeqByGroupNoAndGroupSeq(@Param("groupNo") int groupNo, @Param("parentGroupSeq") int parentGroupSeq);
+    @Query(value="SELECT * FROM BOARD WHERE bNo = :#{#parentNo} " , nativeQuery=true)
+    Board findOneByBno(@Param("parentNo") int parentNo);
 
     @Modifying
     @Transactional
-    @Query(value="UPDATE BOARD SET group_seq = group_seq + 1 WHERE group_no = :#{#groupNo} AND group_seq >= :#{#groupSeq}", nativeQuery=true)
-    int updateAllGroupSeq(@Param("groupNo") int groupNo, @Param("groupSeq") int groupSeq);
+    @Query(value="UPDATE BOARD SET group_seq = group_seq + 1 "
+           +" WHERE group_no = :#{#groupNo} AND group_seq > :#{#groupSeq} "
+           + "AND group_seq != :#{#parentGroupSeq}", nativeQuery=true)
+    int updateAllGroupSeq(@Param("groupNo") int groupNo, @Param("groupSeq") int groupSeq, @Param("parentGroupSeq") int parentGroupSeq);
 
 }
