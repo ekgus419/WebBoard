@@ -170,13 +170,11 @@ public class BoardController {
 
     }
 
-
     @GetMapping("/write/{bNo}")
     public String writeReply(@PathVariable int bNo, Model model) {
         // 답글의 답글인 경우
         // groupNo가 있는지 확인
         System.out.println(bNo);
-//        int groupNo = boardService.getGroupNoBybNo(bNo);
         int groupNo = boardService.getfindOne(bNo).getGroupNo();
         System.out.println("groupNo : " + groupNo);
 
@@ -204,11 +202,23 @@ public class BoardController {
                 parentNo = groupNo;
             }
 
+            // Max Seq
             int groupSeq = boardRepository.findMaxGroupSeqByGroupNo(groupNo);
-            int depth = boardRepository.findMaxDepthByParentNo(parentNo);
 
+            // 부모글 Seq
+            int parentGroupSeq = boardRepository.findGroupSeqByParentNo(parentNo)+1;
+            int depth = boardRepository.findDepthByParentNo(parentNo);
+
+            // 부모글 Seq 값이 있는지
+            int isValue = boardRepository.findGroupSeqByGroupNoAndGroupSeq(groupNo,parentGroupSeq);
+
+            if(isValue > 0 ){
+                boardRepository.updateAllGroupSeq(groupNo,groupSeq);
+                board.setGroupSeq(parentGroupSeq);
+            }else{
+                board.setGroupSeq(groupSeq+1);
+            }
             board.setParentNo(parentNo);
-            board.setGroupSeq(groupSeq+1);
             board.setDepth(depth+1);
             board.setWriter(writer);
 

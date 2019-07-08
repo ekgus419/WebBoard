@@ -37,7 +37,7 @@ public class Board extends WebBaseTimeConfig {
     private int groupNo;
 
     @Column(name = "GROUP_SEQ")
-    private double groupSeq;
+    private int groupSeq;
 
     @Column(name = "PARENT_NO", insertable = true, updatable = false)
     private int parentNo;
