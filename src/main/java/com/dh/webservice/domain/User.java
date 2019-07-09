@@ -1,3 +1,9 @@
+/**
+ * @author cdh
+ * @since 2019-07-01
+ * @copyright  Copyright dh-0419(https://github.com/ekgus419/WebBoard)
+ *
+ */
 package com.dh.webservice.domain;
 
 import com.dh.webservice.config.WebBaseTimeConfig;
@@ -7,6 +13,13 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+
+/**
+ * @title User Entity를 정의한다.
+ * @author cdh
+ * @FileName User
+ *
+ */
 @Entity(name = "USER")
 @Data
 public class User extends WebBaseTimeConfig {
