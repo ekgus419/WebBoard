@@ -44,7 +44,9 @@
                                         {{#boardList}}
                                         <tr>
                                             <td>{{bNo}}</td>
-                                            <td><a href="/board/detail/{{bNo}}">{{title}}</a></td>
+                                            <td>
+                                                <a href="/board/detail/{{bNo}}">{{title}}</a>
+                                            </td>
                                             <td>{{writer}}</td>
                                             <td>{{createdDate}}</td>
                                             <td><span class="badge bg-aqua">{{hit}}</span></td>
@@ -91,6 +93,7 @@
     {{> include/main_footer}}
 </div>
 {{> include/plugin_js}}
+<script src="/plugins/handlebars/handlebars-1.0.rc.1.min.js"></script>
 <script src="/js/board_script.js"></script>
 </body>
 </html>

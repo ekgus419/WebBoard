@@ -255,46 +255,84 @@ public class BoardController {
             }
 
             // parentNo로 부모글 컬럼 가져오기
-            Board parentBoard = boardRepository.findOneByBno(parentNo);
+            Board parentBoard = boardRepository.findBoardByBNo(parentNo);
 
             // 부모글 groupSeq
             int parentGroupSeq = parentBoard.getGroupSeq();
-            int maxParentGroupSeq = parentGroupSeq + 1;
+
+            // 현재 넣으려는 글의 seq
+            int nextGroupSeq = parentGroupSeq + 1;
 
             // 부모글 depth
             int parentDepth = parentBoard.getDepth();
 
-            // 답글의 groupSeq
-            int groupSeq = boardRepository.findMaxGroupSeqByGroupNo(groupNo);
-
-            // Max Seq
-            int maxGroupSeq = groupSeq+1;
-
             // 작성한 글의 depth
             int depth = parentDepth + 1;
 
-            // 이미 존재하는 group_seq인지 확인
-            Board findBoard = boardRepository.findOneByGroupNoAndGroupSeq(groupNo,parentGroupSeq);
-            if(findBoard != null) {
-                // 이미 존재하는 group_seq
-                // 이 글부터 그룹 안에 있는 모든 group_seq 를 1 증가
-                board.setGroupSeq(maxParentGroupSeq);
-                boardRepository.updateAllGroupSeq(findBoard.getGroupNo(), findBoard.getGroupSeq(), parentGroupSeq);
-            }else{
-                 board.setGroupSeq(maxGroupSeq);
+            // max Seq
+            int maxGroupSeq = boardRepository.findMaxGroupSeqByGroupNo(groupNo);
+
+            if(nextGroupSeq <= maxGroupSeq){
+                // 답글이 존재함(이미 존재하는 group_seq인지 확인)
+                Board findBoard = boardRepository.findBoardByGroupNoAndGroupSeq(groupNo,nextGroupSeq);
+                if(findBoard.getParentNo() != parentNo) {
+                    board.setGroupSeq(nextGroupSeq);
+                    boardRepository.updateAllGroupSeq(findBoard.getGroupNo(), findBoard.getGroupSeq());
+                }
+            }
+            if(board.getGroupSeq() == 0) {
+                board.setGroupSeq(maxGroupSeq + 1);
             }
             board.setParentNo(parentNo);
             board.setDepth(depth);
             board.setWriter(writer);
 
             return boardRepository.save(board);
-
         }else{
             return new Board();
         }
 
     }
 
+
+// ver2
+//            // parentNo로 부모글 컬럼 가져오기
+//            Board parentBoard = boardRepository.findOneByBno(parentNo);
+//
+//            // 부모글 groupSeq
+//            int parentGroupSeq = parentBoard.getGroupSeq();
+//            int maxParentGroupSeq = parentGroupSeq + 1;
+//
+//            // 부모글 depth
+//            int parentDepth = parentBoard.getDepth();
+//
+//            // 답글의 groupSeq
+//            int groupSeq = boardRepository.findMaxGroupSeqByGroupNo(groupNo);
+//
+//            // Max Seq
+//            int maxGroupSeq = groupSeq+1;
+//
+//            // 작성한 글의 depth
+//            int depth = parentDepth + 1;
+//
+//            // 이미 존재하는 group_seq인지 확인
+//            Board findBoard = boardRepository.findOneByGroupNoAndGroupSeq(groupNo,parentGroupSeq);
+//            if(findBoard != null) {
+//                // 이미 존재하는 group_seq
+//                // 이 글부터 그룹 안에 있는 모든 group_seq 를 1 증가
+//                board.setGroupSeq(maxParentGroupSeq);
+//                boardRepository.updateAllGroupSeq(findBoard.getGroupNo(), findBoard.getGroupSeq(), parentGroupSeq);
+//            }else{
+//                board.setGroupSeq(maxGroupSeq);
+//            }
+//            board.setParentNo(parentNo);
+//            board.setDepth(depth);
+//            board.setWriter(writer);
+//
+//            return boardRepository.save(board);
+
+
+// ver1
 //    public Board writeReply(@RequestBody Board board, Principal principal) {
 //
 //        System.out.println("================= writeReply(); ====================== ");
