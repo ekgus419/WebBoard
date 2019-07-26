@@ -47,14 +47,12 @@ public class WebSecurityHandler implements AuthenticationSuccessHandler, Authent
             String targetUrl = determineTargetUrl(authentication);
 
             if (response.isCommitted()) {
-                System.out.println("Response has already been committed. Unable to redirect to : targetUrl -> " + targetUrl);
                 return;
             }
             redirectStrategy.sendRedirect(request, response, targetUrl);
         }
 
         protected void clearAuthenticationAttributes(HttpServletRequest request) {
-            System.out.println("clearAuthenticationAttributes()");
             HttpSession session = request.getSession(false);
             if (session == null) {
                 return;
@@ -67,7 +65,6 @@ public class WebSecurityHandler implements AuthenticationSuccessHandler, Authent
             boolean isUser = false;
             boolean isAdmin = false;
             Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-            System.out.println("determineTargetUrl()");
             for (GrantedAuthority grantedAuthority : authorities) {
                 if (grantedAuthority.getAuthority().equals("USER")) {
                     isUser = true;

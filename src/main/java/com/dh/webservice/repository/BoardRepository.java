@@ -21,23 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public interface BoardRepository extends JpaRepository<Board, Integer> {
 
-//    @Query(value="SELECT COALESCE(MAX(group_seq), 0) FROM BOARD WHERE group_no = :#{#groupNo}  ", nativeQuery=true)
-//    int findMaxGroupSeqByGroupNo(@Param("groupNo") int groupNo);
-//
-//    @Query(value="SELECT * FROM BOARD WHERE group_no = :#{#groupNo} AND group_seq = :#{#parentGroupSeq} " , nativeQuery=true)
-//    Board findOneByGroupNoAndGroupSeq(@Param("groupNo") int groupNo, @Param("parentGroupSeq") int parentGroupSeq);
-//
-//    @Query(value="SELECT * FROM BOARD WHERE bNo = :#{#parentNo} " , nativeQuery=true)
-//    Board findOneByBno(@Param("parentNo") int parentNo);
-//
-//    @Modifying
-//    @Transactional
-//    @Query(value="UPDATE BOARD SET group_seq = group_seq + 1 "
-//            +" WHERE group_no = :#{#groupNo} AND group_seq > :#{#groupSeq} "
-//            + "AND group_seq != :#{#parentGroupSeq}", nativeQuery=true)
-//    int updateAllGroupSeq(@Param("groupNo") int groupNo, @Param("groupSeq") int groupSeq, @Param("parentGroupSeq") int parentGroupSeq);
-
-
     @Query(value="SELECT COALESCE(MAX(group_seq), 0) FROM BOARD WHERE group_no = :#{#groupNo}  ", nativeQuery=true)
     int findMaxGroupSeqByGroupNo(@Param("groupNo") int groupNo);
 

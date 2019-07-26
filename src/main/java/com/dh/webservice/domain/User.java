@@ -41,9 +41,6 @@ public class User extends WebBaseTimeConfig {
     @Column(name = "user_phone")
     private String userPhone;
 
-//    @Column(name = "reg_date", columnDefinition = "DATE DEFAULT CURRENT_DATE")
-//    private LocalDateTime regDate;
-
     @Column(name = "active")
     private int active;
 

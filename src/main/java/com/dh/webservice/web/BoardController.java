@@ -96,8 +96,6 @@ public class BoardController {
     @ResponseBody
     public Board write(@RequestBody Board board, Principal principal) {
 
-        System.out.println(board.toString());
-
         String writer = principal.getName();
         // 작성자인지 확인
         if(!writer.equals("") &&  writer.trim().length() > 0) {

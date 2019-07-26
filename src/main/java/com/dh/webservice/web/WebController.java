@@ -40,7 +40,6 @@ public class WebController {
     @PostMapping("/signup")
     @ResponseBody
     public User signup(@RequestBody User user) {
-        System.out.println("signup post loaded");
         userService.saveUser(user);
         return new User();
     }

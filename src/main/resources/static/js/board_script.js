@@ -30,6 +30,7 @@ $(document).ready(function(){
             $("#btn_list").on('click', function(){
                 window.location.replace("/board/list?pageNo=1&pageSize=10");
             });
+
             return this;
         },
         getWrite: function () {
@@ -45,7 +46,6 @@ $(document).ready(function(){
             };
             $.ajax({
                 type: "POST",
-                // url: "/board/write",
                 url: url,
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
@@ -105,14 +105,8 @@ $(document).ready(function(){
         },
 
     };
-    board.init();
 
-    // Handlebars.registerHelper('for', function(from, to, incr, block) {
-    //     var accum = '';
-    //     for(var i = from; i < to; i += incr)
-    //         accum += block.fn(i);
-    //     return accum;
-    // });
+    board.init();
 
 });
 

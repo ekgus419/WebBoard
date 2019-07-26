@@ -23,6 +23,5 @@ public interface BoardService {
     public Page<Board> getfindAll(Integer pageNo, Integer pageSize);
 
     public Board getfindOne(int bNo);
-    // findMaxGroupSeqByGroupNo
 
 }
