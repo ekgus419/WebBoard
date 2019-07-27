@@ -1,3 +1,9 @@
+/**
+ * @author cdh
+ * @since 2019-07-01
+ * @copyright  Copyright dh-0419(https://github.com/ekgus419/WebBoard)
+ *
+ */
 package com.dh.webservice.service;
 
 import com.dh.webservice.domain.Board;
@@ -10,6 +16,12 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
+/**
+ * @title BoardService를 구현한 파일
+ * @author cdh
+ * @FileName : BoardServiceImpl
+ *
+ */
 @Service
 public class BoardServiceImpl implements BoardService {
 
@@ -17,20 +29,23 @@ public class BoardServiceImpl implements BoardService {
     BoardRepository boardRepository;
 
     @Override
-    public Page<Board> findAll(Integer pageNum, Integer pageSize) {
-        /* 게시판 리스트 보기  curPage : 요청하는 페이지 , 첫페이지는 0부터 시작  */
-
-        PageRequest pr = new PageRequest(pageNum-1, pageSize,
+    public Page<Board> getfindAll(Integer pageNo, Integer pageSize) {
+        PageRequest pr = new PageRequest(pageNo, pageSize,
                 new Sort(
-                        new Order(Direction.DESC,"createdDate")
+                        new Order(Direction.DESC,"groupNo"),
+                        new Order(Direction.ASC,"groupSeq"),
+                        new Order(Direction.ASC,"depth")
                 )
         );
 
         return boardRepository.findAll(pr);
     }
 
-
-
+    @Override
+    public Board getfindOne(int bNo) {
+        Board board = boardRepository.findOne(bNo);
+        return board;
+    }
 
 
 }

@@ -21,7 +21,7 @@
             <div class="col-lg-12">
                 <!--게시글 영역-->
                 <form>
-                    <input type="hidden" name="bNo" id="bNo" value="{{board.bno}}" ></input>
+                    <input type="hidden" name="bNo" id="bNo" value="{{board.bNo}}" ></input>
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">
@@ -49,15 +49,17 @@
                 <div>
                     <form role="form" method="post">
                         <!--페이징 정보 유지를 위한 입력 form-->
-                        <input type="hidden" name="bno" value="${boardVO.bno}">
+                        <input type="hidden" name="bNo" value="${boardVO.bNo}">
                         <input type="hidden" name="page" value="${criteria.page}">
                         <input type="hidden" name="perPageNum" value="${criteria.perPageNum}">
                         <input type="hidden" name="searchType" value="${criteria.searchType}">
                         <input type="hidden" name="keyword" value="${criteria.keyword}">
                     </form>
-
                     <button type="submit" class="btn btn-warning modBtn" id="btn_update"><i class="fa fa-edit"></i> 수정</button>
                     <button type="submit" class="btn btn-danger delBtn" id="btn_delete"><i class="fa fa-trash"></i> 삭제</button>
+                    <a href="/board/write/{{board.bNo}}" class="btn btn-success btn-icon-split">
+                        <span class="text">답글</span>
+                    </a>
                     <button type="submit" class="btn btn-primary listBtn pull-right" id="btn_list"><i class="fa fa-list"></i> 목록</button>
                 </div>
                 <br/>

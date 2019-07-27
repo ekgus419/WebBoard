@@ -1,3 +1,9 @@
+/**
+ * @author cdh
+ * @since 2019-07-01
+ * @copyright  Copyright dh-0419(https://github.com/ekgus419/WebBoard)
+ *
+ */
 package com.dh.webservice.security;
 
 
@@ -18,6 +24,12 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Collection;
 
+/**
+ * @title Spring Security Handler 설정 파일
+ * @author cdh
+ * @FileName : WebSecurityHandler
+ *
+ */
 @Component
 public class WebSecurityHandler implements AuthenticationSuccessHandler, AuthenticationFailureHandler {
 
@@ -35,14 +47,12 @@ public class WebSecurityHandler implements AuthenticationSuccessHandler, Authent
             String targetUrl = determineTargetUrl(authentication);
 
             if (response.isCommitted()) {
-                System.out.println("Response has already been committed. Unable to redirect to : targetUrl -> " + targetUrl);
                 return;
             }
             redirectStrategy.sendRedirect(request, response, targetUrl);
         }
 
         protected void clearAuthenticationAttributes(HttpServletRequest request) {
-            System.out.println("clearAuthenticationAttributes()");
             HttpSession session = request.getSession(false);
             if (session == null) {
                 return;
@@ -55,7 +65,6 @@ public class WebSecurityHandler implements AuthenticationSuccessHandler, Authent
             boolean isUser = false;
             boolean isAdmin = false;
             Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-            System.out.println("determineTargetUrl()");
             for (GrantedAuthority grantedAuthority : authorities) {
                 if (grantedAuthority.getAuthority().equals("USER")) {
                     isUser = true;
@@ -66,9 +75,9 @@ public class WebSecurityHandler implements AuthenticationSuccessHandler, Authent
                 }
             }
             if (isUser) {
-                return "/board/list/1";
+                return "/board/list?pageNo=1&pageSize=10";
             } else if (isAdmin) {
-                return "/board/list/1";
+                return "/board/list?pageNo=1&pageSize=10";
             } else {
                 throw new IllegalStateException();
             }
