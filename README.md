@@ -3,20 +3,6 @@
 이 프로젝트는 게시판의 기본 기능(CRUD)에 충실하게 만들되,
 하나의 글에 트리 형태로 답변을 달 수 있는 계층형 로직을 추가해보자! 라는 생각에서 개발 하게 되었습니다.
 
-## 개발 환경
-
-| 구분 | TYPE | SPEC |
-|--------|--------|--------|
-|H/W     |CPU   |    Intel(R) Core(TM) i5    |
-|     |Memory        |  8.00GB     |
-|S/W     |OS   |    Windows 10 Home    |
-|     |DBMS        |  MariaDB 10.0     |
-|     |WAS        | Apache Tomcat 8.5     |
-|     |IDE        |InteliJ    |
-|     |Environment        | GitHub, Gradle     |
-
-
-
 ##  SKILL
 - Spring Boot
 - Spring DevTools
@@ -99,16 +85,17 @@ public Board writeReply(@RequestBody Board board, Principal principal) {
 		int maxGroupSeq = boardRepository.findMaxGroupSeqByGroupNo(groupNo);
 
 		if(nextGroupSeq <= maxGroupSeq){
-			// 답글이 존재함(이미 존재하는 group_seq인지 확인)
-			Board findBoard = boardRepository.findBoardByGroupNoAndGroupSeq(groupNo,nextGroupSeq);
-			if(findBoard.getParentNo() != parentNo) {
-				board.setGroupSeq(nextGroupSeq);
-				boardRepository.updateAllGroupSeq(findBoard.getGroupNo(), findBoard.getGroupSeq());
-			}
-		}
+		    // 답글이 존재함(이미 존재하는 group_seq인지 확인)
+		    Board findBoard = boardRepository.findBoardByGroupNoAndGroupSeq(groupNo,nextGroupSeq);
+		    if(findBoard.getParentNo() != parentNo) {
+		       board.setGroupSeq(nextGroupSeq);
+		       boardRepository.updateAllGroupSeq(findBoard.getGroupNo(), findBoard.getGroupSeq());
+		     }
+		 }
 		if(board.getGroupSeq() == 0) {
-			board.setGroupSeq(maxGroupSeq + 1);
+		    board.setGroupSeq(maxGroupSeq + 1);
 		}
+		
 		board.setParentNo(parentNo);
 		board.setDepth(depth);
 		board.setWriter(writer);
